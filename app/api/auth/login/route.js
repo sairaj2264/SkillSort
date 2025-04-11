@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
-import { generateToken } from '../../../utils/jwt';
+import jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 
-export async function POST(request: Request) {
+export async function POST(request) {
   try {
     const { email, password } = await request.json();
 
@@ -40,12 +41,12 @@ export async function POST(request: Request) {
     }
 
     // Generate JWT token
-    const token = generateToken(user);
+    const token = jwt.sign({ userId: user.id }, JWT_SECRET, {
+      expiresIn: '7d',
+    });
 
-    // Return user data and token (excluding password)
+    // Create response with user data (excluding password)
     const { password: _, ...userWithoutPassword } = user;
-    
-    // Create response with user data
     const response = NextResponse.json(
       { user: userWithoutPassword },
       { status: 200 }

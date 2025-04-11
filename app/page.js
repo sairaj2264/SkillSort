@@ -1,7 +1,13 @@
+'use client'
+
 import React from 'react'
 import Image from 'next/image'
+import { useSession } from './context/SessionContext'
 
 const page = () => {
+
+const {user} = useSession();
+console.log(user);
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Hero Section */}
