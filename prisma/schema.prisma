@@ -30,4 +30,5 @@ model details{
   leetcodeUrl String
   codechefUrl String
   domain      String   @default("fullstack")
+  score       Int      @default(0)
 }

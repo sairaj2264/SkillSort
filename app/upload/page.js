@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@supabase/supabase-js';
+import axios from 'axios';
 
 export default function UploadPage() {
     const router = useRouter();
@@ -14,6 +15,7 @@ export default function UploadPage() {
         github: '',
         leetcode: '',
         codechef: '',
+        domain: '',
     });
     
     const [selectedFile, setSelectedFile] = useState(null);
@@ -73,7 +75,36 @@ export default function UploadPage() {
         }
 
         try {
-            // Send data to the API
+            
+       
+           
+            const codechefData = await axios.get(`https://codechef-api.vercel.app/handle/${formData.codechef}`)
+
+            if(codechefData.data.status == 404){
+              console.log("Codechef handle not found");
+              return
+            }
+            
+            const codechefScore = Math.min(Number(codechefData.data.currentRating)/ 20 , 100);
+
+            const leetcodeData = await axios.get(`https://alfa-leetcode-api.onrender.com/${formData.leetcode}/solved`)
+            const leetcodeScrore = Math.min(Number(leetcodeData.data.solvedProblem )  / 5 , 100);
+
+            const githubData = await axios.get(`https://codeforces.com/api/user.status?handle=${formData.github}`)
+           
+            const githubScore = Math.min(100 , githubData.data.result.filter((item) => {
+              return item.verdict == "OK"
+            }).length)
+            // console.log(githubScore);
+            
+            let score = githubScore + leetcodeScrore + codechefScore;
+
+           
+            
+
+           
+            
+            
             const response = await fetch('/api/upload', {
                 method: 'POST',
                 headers: {
@@ -84,6 +115,8 @@ export default function UploadPage() {
                     githubUrl: formData.github,
                     leetcodeUrl: formData.leetcode,
                     codechefUrl: formData.codechef,
+                    score: score,
+                    domain: formData.domain
                 }),
                 credentials: 'include',
             });
@@ -154,44 +187,61 @@ export default function UploadPage() {
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                            GitHub URL
+                            Codeforces Handle
                         </label>
                         <input
-                            type="url"
+                            type="text"
                             name="github"
                             value={formData.github}
                             onChange={handleChange}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                            placeholder="https://github.com/username"
+                            placeholder="username"
                         />
                     </div>
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                            LeetCode URL
+                            LeetCode Handle
                         </label>
                         <input
-                            type="url"
+                            type="text"
                             name="leetcode"
                             value={formData.leetcode}
                             onChange={handleChange}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                            placeholder="https://leetcode.com/username"
+                            placeholder="username"
                         />
                     </div>
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                            CodeChef URL
+                            CodeChef Handle
                         </label>
                         <input
-                            type="url"
+                            type="text"
                             name="codechef"
                             value={formData.codechef}
                             onChange={handleChange}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                            placeholder="https://www.codechef.com/users/username"
+                            placeholder="username"
                         />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Domain
+                        </label>
+                        <select
+                            name="domain"
+                            value={formData.domain}
+                            onChange={handleChange}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                        >
+                            <option value="">Select Domain</option>
+                            <option value="fullstack">Full Stack</option>
+                            <option value="devops">DevOps</option>
+                            <option value="ml">Machine Learning</option>
+                        </select>
                     </div>
 
                     <button

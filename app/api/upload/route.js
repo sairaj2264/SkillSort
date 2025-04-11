@@ -27,10 +27,10 @@ export async function POST(request) {
       );
     }
 
-    const { resumeUrl, githubUrl, leetcodeUrl, codechefUrl } = await request.json();
+    const { resumeUrl, githubUrl, leetcodeUrl, codechefUrl , score  ,domain} = await request.json();
 
     // Validate input
-    if (!resumeUrl || !githubUrl || !leetcodeUrl || !codechefUrl) {
+    if (!resumeUrl || !githubUrl || !leetcodeUrl || !codechefUrl ) {
       return NextResponse.json(
         { error: 'All fields are required' },
         { status: 400 }
@@ -50,7 +50,9 @@ export async function POST(request) {
           resumeUrl,
           githubUrl,
           leetcodeUrl,
-          codechefUrl
+          codechefUrl,
+          score,
+          domain
         }
       });
 
@@ -63,7 +65,8 @@ export async function POST(request) {
           resumeUrl,
           githubUrl,
           leetcodeUrl,
-          codechefUrl
+          codechefUrl,
+          domain
         }
       });
 
