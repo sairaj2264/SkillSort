@@ -38,6 +38,7 @@ export async function POST(request) {
     }
 
     // Check if user already has details
+    // console.log(score);
     const existingDetails = await prisma.details.findUnique({
       where: { userid: decoded.userId }
     });

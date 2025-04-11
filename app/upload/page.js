@@ -97,7 +97,7 @@ export default function UploadPage() {
             }).length)
             // console.log(githubScore);
             
-            let score = githubScore + leetcodeScrore + codechefScore;
+            let score = Number((githubScore + leetcodeScrore + codechefScore));
 
            
             

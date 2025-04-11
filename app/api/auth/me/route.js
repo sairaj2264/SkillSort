@@ -37,6 +37,7 @@ export async function GET(request) {
           id: true,
           name: true,
           email: true,
+          role: true,
         }
       });
 
