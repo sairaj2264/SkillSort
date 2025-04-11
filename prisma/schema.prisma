@@ -18,4 +18,16 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   role      String   @default("user")
+  details   details?
 } 
+
+model details{
+  id          Int @id @default(autoincrement())
+  userid      Int @unique
+  user        User @relation(fields: [userid], references: [id])
+  resumeUrl   String  
+  githubUrl   String
+  leetcodeUrl String
+  codechefUrl String
+  domain      String   @default("fullstack")
+}
