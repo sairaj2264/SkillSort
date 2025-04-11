@@ -2,14 +2,18 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { setCookie } from 'cookies-next';
 
 const SignupPage = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,10 +23,47 @@ const SignupPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle signup logic here
-    console.log('Signup form submitted:', formData);
+    setError('');
+
+    // Validate passwords match
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Signup failed');
+      }
+
+      // Store the token in a cookie
+      setCookie('token', data.token, {
+        maxAge: 60 * 60 * 24, // 24 hours
+        path: '/',
+      });
+
+      // Redirect to home page or dashboard
+      router.push('/');
+    } catch (error) {
+      setError(error.message);
+      console.error('Signup error:', error);
+    }
   };
 
   return (
@@ -39,6 +80,11 @@ const SignupPage = () => {
             </Link>
           </p>
         </div>
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded relative" role="alert">
+            <span className="block sm:inline">{error}</span>
+          </div>
+        )}
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm -space-y-px">
             <div>

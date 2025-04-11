@@ -44,10 +44,23 @@ export async function POST(request: Request) {
 
     // Return user data and token (excluding password)
     const { password: _, ...userWithoutPassword } = user;
-    return NextResponse.json(
-      { user: userWithoutPassword, token },
+    
+    // Create response with user data
+    const response = NextResponse.json(
+      { user: userWithoutPassword },
       { status: 200 }
     );
+
+    // Set the token as an HTTP-only cookie
+    response.cookies.set('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24 * 7, // 1 week
+      path: '/',
+    });
+
+    return response;
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json(
