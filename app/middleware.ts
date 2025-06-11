@@ -4,10 +4,10 @@ import { verifyToken } from './utils/jwt';
 
 export async function middleware(request: NextRequest) {
   // List of public routes that don't require authentication
-  const publicRoutes = ['/api/auth/login', '/api/auth/signup'];
+  const publicRoutes = ['/api/auth/login', '/api/auth/signup', '/api/bestusers'];
   
   // Check if the requested path is a public route
-  if (publicRoutes.includes(request.nextUrl.pathname)) {
+  if (publicRoutes.some(route => request.nextUrl.pathname.startsWith(route))) {
     return NextResponse.next();
   }
 

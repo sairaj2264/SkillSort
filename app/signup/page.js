@@ -54,7 +54,7 @@ export default function SignupPage() {
                     name="name"
                     type="text"
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 text-black placeholder-gray-500"
                     placeholder="Enter your full name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -70,7 +70,7 @@ export default function SignupPage() {
                     name="email"
                     type="email"
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 text-black placeholder-gray-500"
                     placeholder="Enter your email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -86,7 +86,7 @@ export default function SignupPage() {
                     name="password"
                     type="password"
                     required
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 text-black placeholder-gray-500"
                     placeholder="Create a password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}

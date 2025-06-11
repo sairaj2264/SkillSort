@@ -43,7 +43,7 @@ const AboutPage = () => {
                   </div>
                   <h3 className="text-lg font-medium text-gray-900">AI-Powered Analysis</h3>
                   <p className="mt-2 text-base text-gray-500">
-                    Our advanced algorithms analyze resumes for key skills, experience, and qualifications with 95% accuracy. The system learns from your preferences to improve matching over time.
+                    Our advanced algorithms analyze resumes for key skills, experience, and qualifications with high accuracy. The system learns from your preferences to improve matching over time.
                   </p>
                 </div>
               </div>
@@ -58,7 +58,7 @@ const AboutPage = () => {
                   </div>
                   <h3 className="text-lg font-medium text-gray-900">Fast Screening</h3>
                   <p className="mt-2 text-base text-gray-500">
-                    Reduce screening time by up to 80% with our automated candidate matching system. Process hundreds of resumes in minutes, not hours, while maintaining quality standards.
+                    Reduce screening time significantly with our automated candidate matching system. Process hundreds of resumes in minutes, not hours, while maintaining quality standards.
                   </p>
                 </div>
               </div>

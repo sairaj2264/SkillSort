@@ -3,6 +3,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { useSession } from './context/SessionContext'
+import Link from 'next/link'
 
 const page = () => {
 
@@ -10,7 +11,6 @@ const {user} = useSession();
 console.log(user);
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="relative z-10 pb-8 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
@@ -25,12 +25,12 @@ console.log(user);
                 </p>
                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                   <div className="rounded-md shadow">
-                    <a
-                      href="#"
+                    <Link
+                      href={user ? "/upload" : "/login"}
                       className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"
                     >
                       Get Started
-                    </a>
+                    </Link>
                   </div>
                   <div className="mt-3 sm:mt-0 sm:ml-3">
                     <a
@@ -76,20 +76,7 @@ console.log(user);
       {/* Stats Section */}
       <div className="bg-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            <div className="text-center">
-              <div className="text-4xl font-bold text-indigo-600">95%</div>
-              <div className="mt-2 text-sm font-medium text-gray-500">Accuracy Rate</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-indigo-600">80%</div>
-              <div className="mt-2 text-sm font-medium text-gray-500">Time Saved</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-indigo-600">10k+</div>
-              <div className="mt-2 text-sm font-medium text-gray-500">Resumes Processed</div>
-            </div>
-          </div>
+         
         </div>
       </div>
 
