@@ -19,11 +19,13 @@ export default function UploadPage() {
   const [resumeUrl, setResumeUrl] = useState("");
   const [uploadStatus, setUploadStatus] = useState("");
   const [error, setError] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
+    setIsUploading(true);
     setSelectedFile(file);
     setUploadStatus("Uploading file...");
 
@@ -55,12 +57,19 @@ export default function UploadPage() {
     } catch (error) {
       setUploadStatus(`Error: ${error.message}`);
       console.error("Error during upload:", error);
+    } finally {
+      setIsUploading(false);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
+    if (isUploading) {
+      setError("Please wait for the resume to finish uploading.");
+      return;
+    }
 
     // Validate form data
     if (!formData.github || !formData.leetcode || !formData.codechef) {
@@ -74,9 +83,7 @@ export default function UploadPage() {
     }
 
     try {
-      const codechefData = await axios.get(
-        `https://codechef-api.vercel.app/handle/${formData.codechef}`
-      );
+      const codechefData = await axios.get(`https://codechef-api-nu.vercel.app/handle/${formData.codechef}`);
 
       if (codechefData.data.status == 404) {
         console.log("Codechef handle not found");
@@ -109,7 +116,7 @@ export default function UploadPage() {
       );
       console.log(githubScore);
 
-      let score = Number(githubScore + leetcodeScrore + codechefScore);
+      const score = Number(githubScore + leetcodeScrore + codechefScore);
       console.log(score);
 
       const response = await fetch("/api/upload", {
@@ -256,8 +263,9 @@ export default function UploadPage() {
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            disabled={isUploading}
           >
-            Submit
+            {isUploading ? "Uploading..." : "Submit"}
           </button>
         </form>
       </div>

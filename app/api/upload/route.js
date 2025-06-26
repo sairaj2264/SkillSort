@@ -67,6 +67,7 @@ export async function POST(request) {
           githubUrl,
           leetcodeUrl,
           codechefUrl,
+          score,
           domain
         }
       });
@@ -76,7 +77,7 @@ export async function POST(request) {
   } catch (error) {
     console.error('Upload error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error' }, 
       { status: 500 }
     );
   }
